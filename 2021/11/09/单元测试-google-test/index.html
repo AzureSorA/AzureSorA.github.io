@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="zh" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>单元测试-google test - AzureSorA</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="Google Test for C++ in Visual Studio
+Create a Google Test Project and configure the test project
+In,"> 
+    
+    <link rel="alternative" href="atom.xml" title="AzureSorA" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">AzureSorA</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">单元测试-google test</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">单元测试-google test</h1>
+        <div class="stuff">
+            <span>十一月 09, 2021</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/C/" rel="tag">C++</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/google-test/" rel="tag">google test</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h1 id="Google-Test-for-C-in-Visual-Studio"><a href="#Google-Test-for-C-in-Visual-Studio" class="headerlink" title="Google Test for C++ in Visual Studio"></a>Google Test for C++ in Visual Studio</h1><ol>
+<li><p><strong>Create a Google Test Project and configure the test project</strong></p>
+<p>In the Test Project Configuration, you can choose the project you want to test.</p>
+</li>
+<li><p><strong>Set additional options</strong></p>
+<p>Choose <strong>Tools&gt;Options&gt;Test Adapter for Google</strong> Test to set additional options.</p>
+</li>
+<li><p><strong>Create references to other projects in the solution</strong></p>
+<p>Choose <strong>Add&gt;Reference</strong>. In the Add Reference dialog, choose the project(s) you want to test.</p>
+</li>
+<li><p><strong>Link to object or library files</strong></p>
+<p>If the code under test doesn’t export the functions that you want to test, you can add the output <em>.obj</em> or <em>.lib</em> file to the dependencies of the test project. <strong>Modify the test project’s properties to include the headers and library or object files that are required for unit testing.</strong></p>
+<ul>
+<li><p>In Solution Explorer,right click the test project, choose <strong>Properties</strong></p>
+</li>
+<li><p>Select the <strong>Configuration Properties&gt;Linker&gt;Input</strong> page, then select <strong>Additional Dependencies</strong>.</p>
+<p>Choose <strong>Edit</strong>, and add the names of the .<em>obj</em> or .<em>lib</em> files. Don’t use the full path names.</p>
+</li>
+<li><p>Select the <strong>Configuration Properties&gt;Linker&gt;General</strong> page, then select <strong>Additional Library Directories</strong>.</p>
+<p>Choose <strong>Edit</strong>, and add the directory path of the .<em>obj</em> or .<em>lib</em> files. The path is typically within the build folder of the project under test.</p>
+</li>
+<li><p>Select the <strong>Configuration Properties&gt;VC++ Directories</strong> page, then select <strong>Include Directories</strong>.</p>
+<p>Choose <strong>Edit</strong>, and then add the header directory of the project under test.</p>
+</li>
+</ul>
+</li>
+<li><p><strong>Add #include directives for header files</strong></p>
+<p>Next, in your unit test <em>.cpp</em> file, add an <code>#include</code> directive for any header files that declare the types and functions you want to test. </p>
+<p><strong>To avoid having to type the full path in each include statement in the source file</strong>, you can add the required folders in <strong>Project</strong> &gt; <strong>Properties</strong> &gt; <strong>C/C++</strong> &gt; <strong>General</strong> &gt; <strong>Additional Include Directories</strong>.</p>
+</li>
+<li><p><strong>Write test methods</strong></p>
+<p>To create a test:</p>
+<ol>
+<li>Use the <code>TEST()</code> macro to define and name a test function. These are ordinary C++ functions that don’t return a value.</li>
+<li>In this function, along with any valid C++ statements you want to include, use the various googletest assertions to check values.</li>
+<li>The test’s result is determined by the assertions; if any assertion in the test fails (either fatally or non-fatally), or if the test crashes, the entire test fails. Otherwise, it succeeds.</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">TEST</span>(TestSuiteName, TestName)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//test body</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">TEST_F</span>(TestFixtureName, TestName)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//test body</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>googletest groups the test results by test suites, so logically related tests should be in the same test suite; in other words, the first argument to their <code>TEST()</code> should be the same. </p>
+<h4 id="Test-Fixtures-Using-the-Same-Data-Configuration-for-Multiple-Tests"><a href="#Test-Fixtures-Using-the-Same-Data-Configuration-for-Multiple-Tests" class="headerlink" title="Test Fixtures: Using the Same Data Configuration for Multiple Tests"></a>Test Fixtures: Using the Same Data Configuration for Multiple Tests</h4><p>If you find yourself writing two or more tests that operate on similar data, you can use a <em>test fixture</em>. </p>
+</li>
+<li><p><strong>Run the tests</strong></p>
+<p>On the <strong>Test</strong> menu, choose <strong>Windows</strong> &gt; <strong>Test Explorer</strong>. </p>
+</li>
+</ol>
+<p><em>参阅</em></p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/visualstudio/test/how-to-use-google-test-for-cpp?view=vs-2022">How to use Google Test for C++ in Visual Studio</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/visualstudio/test/writing-unit-tests-for-c-cpp?view=vs-2022">Write unit tests for C/C++ in Visual Studio</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/visualstudio/test/how-to-use-microsoft-test-framework-for-cpp?view=vs-2022#object_files">To link the tests to the object or library files</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/cpp/build/dlls-in-visual-cpp?view=msvc-170">Create C/C++ DLLs in Visual Studio</a></p>
+<p><a target="_blank" rel="noopener" href="https://google.github.io/googletest/">Google Test User’s Guide</a></p>
+<p><a target="_blank" rel="noopener" href="https://google.github.io/googletest/reference/assertions.html">Assertions Reference</a></p>
+<p><a target="_blank" rel="noopener" href="https://google.github.io/googletest/reference/testing.html">Testing Reference</a></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://link.hhtjim.com/163/425570952.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://link.hhtjim.com/163/425570952.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</html>
