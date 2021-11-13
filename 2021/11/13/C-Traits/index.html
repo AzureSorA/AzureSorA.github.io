@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="zh" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>C++ Traits - AzureSorA</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="typename keyword
+在模板定义中，标明其后的模板参数是类型参数
+
+在模板中，标明内嵌依赖类型名（nested dependent type name）
+依赖：一个模板中依赖于一个模板参,"> 
+    
+    <link rel="alternative" href="atom.xml" title="AzureSorA" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">AzureSorA</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">C++ Traits</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">C++ Traits</h1>
+        <div class="stuff">
+            <span>十一月 13, 2021</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/C/" rel="tag">C++</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="typename-keyword"><a href="#typename-keyword" class="headerlink" title="typename keyword"></a>typename keyword</h2><ol>
+<li><p>在模板定义中，标明其后的模板参数是类型参数</p>
+</li>
+<li><p>在模板中，标明内嵌依赖类型名（nested dependent type name）</p>
+<p>依赖：一个模板中依赖于一个模板参数（template parameter）的名字被称为依赖名字（dependent names）</p>
+<p>内嵌：指一个依赖名字嵌套在一个类的内部</p>
+</li>
+</ol>
+<h2 id="Traits"><a href="#Traits" class="headerlink" title="Traits"></a>Traits</h2><p>Traits类可以在编译期提供类型信息，利用Traits模板及其特化实现，通过方法重载，可以在编译期对类型进行if…else判断。</p>
+<h3 id="Tag-结构体"><a href="#Tag-结构体" class="headerlink" title="Tag 结构体"></a>Tag 结构体</h3><p>通过创建结构体来确定所需标识的不同类型</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">A</span> &#123;</span>&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">B</span> :</span>A &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//假设有一个未知类</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">unknown_type</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">typedef</span> T return_type;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Traits-1"><a href="#Traits-1" class="headerlink" title="Traits"></a>Traits</h3><p>Traits是一个用来携带信息的很小的对象（或结构）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//特性萃取器</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> unknown_type&gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">unknown_type_traits</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> unknown_type::return_type return_type;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//偏特化</span></span><br><span class="line"><span class="comment">//特性萃取器 —— 针对原生指针</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">unknown_type_traits</span>&lt;</span>T*&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">typedef</span> T return_type;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//特性萃取其 —— 针对指向常数</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">unknown_type_traits</span>&lt;</span><span class="keyword">const</span> T*&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">const</span> T return_type;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="接口实现"><a href="#接口实现" class="headerlink" title="接口实现"></a>接口实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//f</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> unknown_type&gt;</span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">typename</span> unknown_type_traits&lt;unknown_type&gt;::return_type __func(unknown_type, A)</span><br><span class="line">&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;use A flag\n&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">A</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> unknown_type&gt;</span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">typename</span> unknown_type_traits&lt;unknown_type&gt;::return_type __func(unknown_type, B)</span><br><span class="line">&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;use B flag\n&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">B</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> unknown_type,<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">typename</span> unknown_type_traits&lt;unknown_type&gt;::return_type __func(unknown_type, T)</span><br><span class="line">&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;use origin ptr\n&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">T</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//return_type 的构造函数</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> unknown_type&gt;</span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">typename</span> unknown_type_traits&lt;unknown_type&gt;::<span class="function">return_type <span class="title">return_type</span><span class="params">(unknown_type)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> unknown_type_traits&lt;unknown_type&gt;::return_type RT;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">RT</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//接口</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> unknown_type&gt;</span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">typename</span> unknown_type_traits&lt;unknown_type&gt;::<span class="function">return_type <span class="title">func</span><span class="params">(unknown_type u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//typedef typename unknown_type_traits&lt;unknown_type&gt;::return_type return_type;</span></span><br><span class="line">    <span class="keyword">return</span> __func(u, <span class="built_in">return_type</span>(u));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>参阅</em></p>
+<p><a target="_blank" rel="noopener" href="https://zh.cppreference.com/w/cpp/language/dependent_name">dependent name in cppreference</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhangdongsheng/p/9693199.html">typename关键字的用法</a></p>
+<p><a target="_blank" rel="noopener" href="https://harttle.land/2015/09/15/effective-cpp-47.html">Effective C++ 47：使用 Traits 类提供类型信息</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mangoyuan/p/6446046.html">C++ traits技术浅谈</a></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://link.hhtjim.com/163/425570952.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://link.hhtjim.com/163/425570952.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</html>
